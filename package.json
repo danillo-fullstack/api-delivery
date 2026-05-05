@@ -6,7 +6,7 @@
     "dev": "tsx watch src/server.ts"
   },
   "author": "Danillo Victtor",
-  "description": "API de encomendas",
+  "description": "API de entrega de encomendas",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
