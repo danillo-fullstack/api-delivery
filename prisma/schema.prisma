@@ -6,3 +6,59 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum UserRole {
+  customer
+  sale
+}
+
+enum DeliveyStatus {
+  processing
+  shipped
+  delivered
+}
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+
+  role UserRole @default(customer)
+  
+  deliveries Delivey[]
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at") 
+
+  @@map("users")
+}
+
+model Delivey {
+  id String @id @default(uuid())
+  userId  String @map("user_id")
+  description String
+
+  status DeliveyStatus @default(processing)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at") 
+
+  user User @relation(fields: [userId], references: [id])
+  logs DeliveryLog[]
+
+  @@map("deliveries")
+}
+
+model DeliveryLog {
+  id String @id @default(uuid())
+  description String
+  deliveryId String @map("delivery_id")
+
+  delivery Delivey @relation(fields: [deliveryId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at") 
+
+  @@map("delivery_logs")
+}
