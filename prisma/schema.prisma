@@ -12,7 +12,7 @@ enum UserRole {
   sale
 }
 
-enum DeliveyStatus {
+enum DeliveryStatus {
   processing
   shipped
   delivered
@@ -26,7 +26,7 @@ model User {
 
   role UserRole @default(customer)
   
-  deliveries Delivey[]
+  deliveries Delivery[]
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at") 
@@ -34,12 +34,12 @@ model User {
   @@map("users")
 }
 
-model Delivey {
+model Delivery {
   id String @id @default(uuid())
   userId  String @map("user_id")
   description String
 
-  status DeliveyStatus @default(processing)
+  status DeliveryStatus @default(processing)
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at") 
@@ -55,7 +55,7 @@ model DeliveryLog {
   description String
   deliveryId String @map("delivery_id")
 
-  delivery Delivey @relation(fields: [deliveryId], references: [id])
+  delivery Delivery @relation(fields: [deliveryId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at") 
